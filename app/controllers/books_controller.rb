@@ -1,8 +1,8 @@
 class BooksController < ApplicationController
-  allow_unauthenticated_access only: %i[ index show ]
+  allow_unauthenticated_access only: %i[ index show print ]
 
   before_action :ensure_index_is_not_empty, only: :index
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show print edit update destroy ]
   before_action :set_users, only: %i[ new edit ]
   before_action :ensure_editable, only: %i[ edit update destroy ]
 
@@ -28,6 +28,11 @@ class BooksController < ApplicationController
       format.html
       format.md
     end
+  end
+
+  def print
+    @leaves = @book.leaves.active.with_leafables.positioned
+    render layout: "print"
   end
 
   def edit

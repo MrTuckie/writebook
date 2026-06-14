@@ -1,0 +1,33 @@
+<% content_for(:title) { @book.title } %>
+
+<div class="txt-align-center margin-block-end" style="margin-bottom: 4rem;">
+  <h1 class="txt-x-large--responsive"><%= @book.title %></h1>
+  <p class="txt-large--responsive"><%= @book.subtitle %></p>
+  <p class="txt-large--responsive" style="margin-top: 2rem;"><strong><%= @book.author %></strong></p>
+</div>
+
+<% @leaves.each do |leaf| %>
+  <div class="page-break"></div>
+  <div class="leaf-content margin-block">
+    <% if leaf.section? %>
+      <div class="page--section <%= "theme--dark" if leaf.leafable.theme == "dark" %>">
+        <h1 class="txt-align-center"><%= simple_format(leaf.section.body) %></h1>
+      </div>
+    <% elsif leaf.page? %>
+      <div class="page--page">
+        <%= sanitize_content(leaf.page.body.to_html) %>
+      </div>
+    <% elsif leaf.picture? %>
+      <figure class="page--picture flex flex-column align-center gap margin-none">
+        <% if leaf.picture.image.attached? %>
+          <%= image_tag leaf.picture.image.variant(:large), loading: "lazy", style: "max-width: 100%;" %>
+        <% else %>
+          <%= image_tag "default-picture.webp", alt: "No image uploaded", loading: "lazy" %>
+        <% end %>
+        <figcaption class="txt-align-center">
+          <%= simple_format leaf.picture.caption %>
+        </figcaption>
+      </figure>
+    <% end %>
+  </div>
+<% end %>

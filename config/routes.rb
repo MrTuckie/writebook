@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   get "/:id/:slug", to: "books#show", constraints: { id: /\d+/ }, as: :slugged_book
+  get "/:id/:slug/print", to: "books#print", constraints: { id: /\d+/ }, as: :print_book
   get "/:book_id/:book_slug/:id/:slug", to: "leafables#show", constraints: { book_id: /\d+/, id: /\d+/ }, as: :slugged_leafable
 
   direct :book_slug do |book, options|

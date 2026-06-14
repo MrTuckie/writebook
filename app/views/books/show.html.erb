@@ -93,6 +93,12 @@
         <span class="for-screen-reader">Page view</span>
       </label>
 
+      <div class="flex-item-justify-end">
+        <%= link_to print_book_path(@book), target: "_blank", class: "btn txt-medium disable-when-empty", title: "Export to PDF" do %>
+           <span>🖨️ PDF</span>
+        <% end %>
+      </div>
+
       <% if @book.editable? %>
         <%= render "books/create_buttons", book: @book %>
         <%= render "books/mode_buttons", book: @book %>

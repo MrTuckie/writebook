@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Writebook" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
+    <%= yield :head %>
+    
+    <style>
+      @media print {
+        .page-break { break-before: page; page-break-before: always; }
+        .no-print { display: none !important; }
+        body { background: white; color: black; }
+      }
+      .print-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+    </style>
+  </head>
+  <body onload="window.print()" class="theme--<%= @book&.theme || 'blue' %>">
+    <div class="print-container">
+      <%= yield %>
+    </div>
+  </body>
+</html>
